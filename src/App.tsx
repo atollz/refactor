@@ -19,13 +19,19 @@ const App = (): React.ReactElement => {
     }, []);
 
     const addItems = () => {
-        const newItems: string[] = [];
+        let currAddedItemsCount = 0;
 
-        for(let i=0; i<20; i++) {
-            newItems.push(newTitle());
+        const addItem = () => {
+            setItems(prevItems => [...prevItems, newTitle()]);
+            currAddedItemsCount++;
+
+            if(currAddedItemsCount < 20) {
+                //break large task in pieces
+                setTimeout(addItem);
+            }
         }
 
-        setItems([ ...items,  ...newItems ]);
+        addItem();
     }
 
     useEffect(() => {
